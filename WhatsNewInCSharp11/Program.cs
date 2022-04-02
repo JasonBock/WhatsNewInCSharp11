@@ -26,6 +26,11 @@ static void DemonstrateParameterNullCheck()
 
 	static int GetLength(string value!!) => value.Length;
 
+	Console.WriteLine(GetLengthExplicitNullCheck("value"));
+	Console.WriteLine(GetLengthExplicitNullCheckUsingThrowIfNull("value"));
+	Console.WriteLine(GetLength("value"));
+	Console.WriteLine();
+
 	static void CallLength(Func<string, int> action)
 	{
 		try
@@ -37,12 +42,6 @@ static void DemonstrateParameterNullCheck()
 			Console.WriteLine(e.Message);
 		}
 	}
-
-	Console.WriteLine(GetLengthExplicitNullCheck("value"));
-	Console.WriteLine(GetLengthExplicitNullCheckUsingThrowIfNull("value"));
-	Console.WriteLine(GetLength("value"));
-
-	Console.WriteLine();
 
 	CallLength(GetLengthExplicitNullCheck);
 	CallLength(GetLengthExplicitNullCheckUsingThrowIfNull);
