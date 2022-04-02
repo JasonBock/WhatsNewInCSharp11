@@ -3,8 +3,11 @@ using WhatsNewInCSharp11;
 
 //DemonstrateParameterNullCheck();
 
+// https://github.com/dotnet/csharplang/blob/main/proposals/param-nullchecking.md
 static void DemonstrateParameterNullCheck()
 {
+	Console.WriteLine(nameof(DemonstrateParameterNullCheck));
+
 	static int GetLengthExplicitNullCheck(string value)
 	{
 		if (value is null)
@@ -23,9 +26,27 @@ static void DemonstrateParameterNullCheck()
 
 	static int GetLength(string value!!) => value.Length;
 
+	static void CallLength(Func<string, int> action)
+	{
+		try
+		{
+			_ = action(null!);
+		}
+		catch (ArgumentNullException e)
+		{
+			Console.WriteLine(e.Message);
+		}
+	}
+
 	Console.WriteLine(GetLengthExplicitNullCheck("value"));
 	Console.WriteLine(GetLengthExplicitNullCheckUsingThrowIfNull("value"));
 	Console.WriteLine(GetLength("value"));
+
+	Console.WriteLine();
+
+	CallLength(GetLengthExplicitNullCheck);
+	CallLength(GetLengthExplicitNullCheckUsingThrowIfNull);
+	CallLength(GetLength);
 }
 
 //DemonstrateRawStringLiterals();
@@ -33,6 +54,8 @@ static void DemonstrateParameterNullCheck()
 // https://github.com/dotnet/csharplang/blob/main/proposals/raw-string-literal.md
 static void DemonstrateRawStringLiterals()
 {
+	Console.WriteLine(nameof(DemonstrateRawStringLiterals));
+
 	var literalCode =
 		@"
 		public static class StringExtensions
@@ -96,18 +119,43 @@ static void DemonstrateRawStringLiterals()
 	Console.WriteLine(interpolatedRawCode);
 }
 
-// DemonstrateListPatterns();
+//DemonstrateListPatterns();
+
+// https://github.com/dotnet/csharplang/blob/main/proposals/param-nullchecking.md
 static void DemonstrateListPatterns()
 {
+	Console.WriteLine(nameof(DemonstrateListPatterns));
 
+	static void Peruse(List<int> values, [CallerArgumentExpression("values")] string valuesExpression = "")
+	{
+		var patternResult = values switch
+		{
+			[var single] => single,
+			[3, var middle, 6] => middle,
+			[var first, var middle, var last] => first + middle + last,
+			[var first, ..] => first * 2,
+			_ => 0
+		};
+
+		Console.WriteLine($"{valuesExpression} yields {patternResult}");
+	}
+
+	Peruse(new List<int> { 3 });
+	Peruse(new List<int> { 3, 4, 6 });
+	Peruse(new List<int> { 3, 4, 5 });
+	Peruse(new List<int> { 3, 4, 5, 6, 7 });
+	Peruse(new List<int> { });
 }
 
 
 //DemonstrateGenericAttributes();
+
 // https://github.com/dotnet/csharplang/issues/124
 // https://github.com/JasonBock/Injectors
 static void DemonstrateGenericAttributes()
 {
+	Console.WriteLine(nameof(DemonstrateGenericAttributes));
+
 	[Trace]
 	static int Add(int x, int y) => x + y;
 
@@ -120,6 +168,8 @@ static void DemonstrateGenericAttributes()
 // https://github.com/dotnet/csharplang/issues/4436
 static void DemonstrateStaticAbstractMembersInInterfaces()
 {
+	Console.WriteLine(nameof(DemonstrateStaticAbstractMembersInInterfaces));
+
 	static T Add<T>(T left, T right)
 		where T : INumber<T> => left + right;
 
