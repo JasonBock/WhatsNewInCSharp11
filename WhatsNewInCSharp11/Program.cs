@@ -1,12 +1,13 @@
 ﻿using System.Runtime.CompilerServices;
 using WhatsNewInCSharp11;
 
-//DemonstrateParameterNullCheck();
+DemonstrateParameterNullCheck();
 
 // https://github.com/dotnet/csharplang/blob/main/proposals/param-nullchecking.md
 static void DemonstrateParameterNullCheck()
 {
 	Console.WriteLine(nameof(DemonstrateParameterNullCheck));
+	Console.WriteLine();
 
 	static int GetLengthExplicitNullCheck(string value)
 	{
@@ -54,6 +55,7 @@ static void DemonstrateParameterNullCheck()
 static void DemonstrateRawStringLiterals()
 {
 	Console.WriteLine(nameof(DemonstrateRawStringLiterals));
+	Console.WriteLine();
 
 	var literalCode =
 		@"
@@ -124,6 +126,7 @@ static void DemonstrateRawStringLiterals()
 static void DemonstrateListPatterns()
 {
 	Console.WriteLine(nameof(DemonstrateListPatterns));
+	Console.WriteLine();
 
 	static void Peruse(List<int> values, [CallerArgumentExpression("values")] string valuesExpression = "")
 	{
@@ -154,6 +157,7 @@ static void DemonstrateListPatterns()
 static void DemonstrateGenericAttributes()
 {
 	Console.WriteLine(nameof(DemonstrateGenericAttributes));
+	Console.WriteLine();
 
 	[Trace]
 	static int Add(int x, int y) => x + y;
@@ -168,6 +172,7 @@ static void DemonstrateGenericAttributes()
 static void DemonstrateStaticAbstractMembersInInterfaces()
 {
 	Console.WriteLine(nameof(DemonstrateStaticAbstractMembersInInterfaces));
+	Console.WriteLine();
 
 	static T Add<T>(T left, T right)
 		where T : INumber<T> => left + right;
