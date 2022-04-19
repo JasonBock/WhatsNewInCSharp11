@@ -1,54 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using WhatsNewInCSharp11;
 
-DemonstrateParameterNullCheck();
-
-// https://github.com/dotnet/csharplang/blob/main/proposals/param-nullchecking.md
-static void DemonstrateParameterNullCheck()
-{
-	Console.WriteLine(nameof(DemonstrateParameterNullCheck));
-	Console.WriteLine();
-
-	static int GetLengthExplicitNullCheck(string value)
-	{
-		if (value is null)
-		{
-			throw new ArgumentNullException(nameof(value));
-		}
-
-		return value.Length;
-	}
-
-	static int GetLengthExplicitNullCheckUsingThrowIfNull(string value)
-	{
-		ArgumentNullException.ThrowIfNull(value);
-		return value.Length;
-	}
-
-	static int GetLength(string value!!) => value.Length;
-
-	Console.WriteLine(GetLengthExplicitNullCheck("value"));
-	Console.WriteLine(GetLengthExplicitNullCheckUsingThrowIfNull("value"));
-	Console.WriteLine(GetLength("value"));
-	Console.WriteLine();
-
-	static void CallLength(Func<string, int> action)
-	{
-		try
-		{
-			_ = action(null!);
-		}
-		catch (ArgumentNullException e)
-		{
-			Console.WriteLine(e.Message);
-		}
-	}
-
-	CallLength(GetLengthExplicitNullCheck);
-	CallLength(GetLengthExplicitNullCheckUsingThrowIfNull);
-	CallLength(GetLength);
-}
-
 //DemonstrateRawStringLiterals();
 
 // https://github.com/dotnet/csharplang/blob/main/proposals/raw-string-literal.md
