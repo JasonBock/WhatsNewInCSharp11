@@ -9,8 +9,11 @@ public abstract class InjectorAttribute<T>
 	: Attribute
 	where T : ICustomAttributeProvider
 {
-	public void Inject(T target!!) =>
+	public void Inject(T target)
+	{
+		ArgumentNullException.ThrowIfNull(target);
 		this.OnInject(target);
+	}
 
 	protected abstract void OnInject(T target);
 }

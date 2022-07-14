@@ -14,7 +14,7 @@ static void DemonstrateRawStringLiterals()
 		public static class StringExtensions
 		{
 			// Here is a ""comment"" with a triple-quote: """"""
-			public static int GetLength(this string self!!) => self.Length;
+			public static int GetLength(this string self) => self.Length;
 		}";
 
 	Console.WriteLine($"{nameof(literalCode)}");
@@ -25,7 +25,7 @@ static void DemonstrateRawStringLiterals()
 		"""
 		public static class StringExtensions
 		{
-			public static int GetLength(this string self!!) => self.Length;
+			public static int GetLength(this string self) => self.Length;
 		}
 		""";
 
@@ -38,7 +38,7 @@ static void DemonstrateRawStringLiterals()
 		public static class StringExtensions
 		{
 			// Here is a "comment" with a triple-quote: """
-			public static int GetLength(this string self!!) => self.Length;
+			public static int GetLength(this string self) => self.Length;
 		}
 		"""";
 
@@ -52,7 +52,7 @@ static void DemonstrateRawStringLiterals()
 		$@"public static class StringExtensions
 		{{
 			// {commentText}
-			public static int GetLength(this string self!!) => self.Length;
+			public static int GetLength(this string self) => self.Length;
 		}}";
 
 	Console.WriteLine($"{nameof(interpolatedLiteralCode)}");
@@ -64,7 +64,7 @@ static void DemonstrateRawStringLiterals()
 		public static class StringExtensions
 		{
 			// {{{commentText}}}
-			public static int GetLength(this string self!!) => self.Length;
+			public static int GetLength(this string self) => self.Length;
 		}
 		""";
 
@@ -80,7 +80,9 @@ static void DemonstrateListPatterns()
 	Console.WriteLine(nameof(DemonstrateListPatterns));
 	Console.WriteLine();
 
-	static void Peruse(List<int> values, [CallerArgumentExpression("values")] string valuesExpression = "")
+	// Note the "nameof(values)" - this is a new feature in C# 11
+	// https://github.com/dotnet/csharplang/issues/373
+	static void Peruse(List<int> values, [CallerArgumentExpression(nameof(values))] string valuesExpression = "")
 	{
 		var patternResult = values switch
 		{
@@ -101,11 +103,11 @@ static void DemonstrateListPatterns()
 	Peruse(new List<int> { });
 }
 
-
 //DemonstrateGenericAttributes();
 
 // https://github.com/dotnet/csharplang/issues/124
 // https://github.com/JasonBock/Injectors
+// https://docs.microsoft.com/en-us/dotnet/api/system.componentmodel.typeconverterattribute
 static void DemonstrateGenericAttributes()
 {
 	Console.WriteLine(nameof(DemonstrateGenericAttributes));
@@ -117,9 +119,25 @@ static void DemonstrateGenericAttributes()
 	Console.WriteLine(Add(3, 4));
 }
 
+//DemonstrateRequiredProperties();
+
+// https://github.com/dotnet/csharplang/issues/3630
+static void DemonstrateRequiredProperties()
+{
+	Console.WriteLine(nameof(DemonstrateRequiredProperties));
+	Console.WriteLine();
+
+	// This won't work.
+	//var person = new Person();
+
+	var person = new Person() { Name = "Jason" };
+
+	Console.WriteLine($"{person.Name}, {person.Age}");
+}
+
 //DemonstrateStaticAbstractMembersInInterfaces();
 
-// https://devblogs.microsoft.com/dotnet/preview-features-in-net-6-generic-math/
+// https://devblogs.microsoft.com/dotnet/dotnet-7-generic-math/
 // https://github.com/dotnet/csharplang/issues/4436
 static void DemonstrateStaticAbstractMembersInInterfaces()
 {
@@ -132,8 +150,9 @@ static void DemonstrateStaticAbstractMembersInInterfaces()
 	Console.WriteLine(Add(3, 4));
 	Console.WriteLine(Add(3.4, 4.3));
 
-	// Sadly, this doesn't work right now,
-	// hopefully BigInteger eventually implements those interfaces.
+	// The current version of BigInteger (https://source.dot.net/#System.Runtime.Numerics/System/Numerics/BigInteger.cs)
+	// implements the necessary interfaces, such as IBinaryInteger.
+	// However, this isn't in .NET 6, which is what this project is referencing.
 	//Console.WriteLine(Add(BigInteger.Parse("49043910940940104390"), BigInteger.Parse("59839583901984390184")));
 
 	var customer = CreateableCustomer.Create();
