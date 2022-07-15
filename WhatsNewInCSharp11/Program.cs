@@ -141,6 +141,7 @@ DemonstrateStaticAbstractMembersInInterfaces();
 
 // https://devblogs.microsoft.com/dotnet/dotnet-7-generic-math/
 // https://github.com/dotnet/csharplang/issues/4436
+// https://source.dot.net/#System.Private.CoreLib/IParsable.cs
 static void DemonstrateStaticAbstractMembersInInterfaces()
 {
 	Console.WriteLine(nameof(DemonstrateStaticAbstractMembersInInterfaces));
@@ -151,6 +152,7 @@ static void DemonstrateStaticAbstractMembersInInterfaces()
 
 	Console.WriteLine(Add(3, 4));
 	Console.WriteLine(Add(3.4, 4.3));
+	Console.WriteLine(Add(int.Parse("3"), 4));
 
 	// The current version of BigInteger (https://source.dot.net/#System.Runtime.Numerics/System/Numerics/BigInteger.cs)
 	// implements the necessary interfaces, such as IBinaryInteger.
