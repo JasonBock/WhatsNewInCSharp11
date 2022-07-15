@@ -1,6 +1,37 @@
 ﻿using System.Runtime.CompilerServices;
 using WhatsNewInCSharp11;
 
+//DemonstrateListPatterns();
+
+// https://github.com/dotnet/csharplang/blob/main/proposals/param-nullchecking.md
+static void DemonstrateListPatterns()
+{
+	Console.WriteLine(nameof(DemonstrateListPatterns));
+	Console.WriteLine();
+
+	// Note the "nameof(values)" - this is a new feature in C# 11
+	// https://github.com/dotnet/csharplang/issues/373
+	static void Peruse(List<int> values, [CallerArgumentExpression(nameof(values))] string valuesExpression = "")
+	{
+		var patternResult = values switch
+		{
+			[var single] => single,
+			[3, var middle, 6] => middle,
+			[var first, var middle, var last] => first + middle + last,
+			[var first, ..] => first * 2,
+			_ => 0
+		};
+
+		Console.WriteLine($"{valuesExpression} yields {patternResult}");
+	}
+
+	Peruse(new List<int> { 3 });
+	Peruse(new List<int> { 3, 4, 6 });
+	Peruse(new List<int> { 3, 4, 5 });
+	Peruse(new List<int> { 3, 4, 5, 6, 7 });
+	Peruse(new List<int> { });
+}
+
 //DemonstrateRawStringLiterals();
 
 // https://github.com/dotnet/csharplang/blob/main/proposals/raw-string-literal.md
@@ -72,37 +103,6 @@ static void DemonstrateRawStringLiterals()
 	Console.WriteLine(interpolatedRawCode);
 }
 
-//DemonstrateListPatterns();
-
-// https://github.com/dotnet/csharplang/blob/main/proposals/param-nullchecking.md
-static void DemonstrateListPatterns()
-{
-	Console.WriteLine(nameof(DemonstrateListPatterns));
-	Console.WriteLine();
-
-	// Note the "nameof(values)" - this is a new feature in C# 11
-	// https://github.com/dotnet/csharplang/issues/373
-	static void Peruse(List<int> values, [CallerArgumentExpression(nameof(values))] string valuesExpression = "")
-	{
-		var patternResult = values switch
-		{
-			[var single] => single,
-			[3, var middle, 6] => middle,
-			[var first, var middle, var last] => first + middle + last,
-			[var first, ..] => first * 2,
-			_ => 0
-		};
-
-		Console.WriteLine($"{valuesExpression} yields {patternResult}");
-	}
-
-	Peruse(new List<int> { 3 });
-	Peruse(new List<int> { 3, 4, 6 });
-	Peruse(new List<int> { 3, 4, 5 });
-	Peruse(new List<int> { 3, 4, 5, 6, 7 });
-	Peruse(new List<int> { });
-}
-
 //DemonstrateGenericAttributes();
 
 // https://github.com/dotnet/csharplang/issues/124
@@ -122,6 +122,8 @@ static void DemonstrateGenericAttributes()
 //DemonstrateRequiredProperties();
 
 // https://github.com/dotnet/csharplang/issues/3630
+// https://blog.paranoidcoding.com/2022/04/11/lowercase-type-names.html
+// https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/warning-waves#cs8981---the-type-name-only-contains-lower-cased-ascii-characters
 static void DemonstrateRequiredProperties()
 {
 	Console.WriteLine(nameof(DemonstrateRequiredProperties));
@@ -135,7 +137,7 @@ static void DemonstrateRequiredProperties()
 	Console.WriteLine($"{person.Name}, {person.Age}");
 }
 
-//DemonstrateStaticAbstractMembersInInterfaces();
+DemonstrateStaticAbstractMembersInInterfaces();
 
 // https://devblogs.microsoft.com/dotnet/dotnet-7-generic-math/
 // https://github.com/dotnet/csharplang/issues/4436

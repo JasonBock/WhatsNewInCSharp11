@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.ComponentModel;
+using System.Reflection;
 
 namespace WhatsNewInCSharp11;
 
@@ -19,6 +20,9 @@ public abstract class InjectorAttribute<T>
 }
 
 [AttributeUsage(AttributeTargets.Method)]
+// Change the converter for these attributes to "string" and watch what happens.
+[TypeConverter(typeof(TraceAttributeConverter))]
+[ImprovedTypeConverter<TraceAttributeConverter>]
 public sealed class TraceAttribute
 	: InjectorAttribute<MethodInfo>
 {
@@ -27,3 +31,7 @@ public sealed class TraceAttribute
 		// do something with the target...
 	}
 }
+
+public sealed class TraceAttributeConverter
+	: TypeConverter
+{ }
