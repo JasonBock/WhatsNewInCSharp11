@@ -137,7 +137,15 @@ static void DemonstrateRequiredProperties()
 	Console.WriteLine($"{person.Name}, {person.Age}");
 }
 
-DemonstrateStaticAbstractMembersInInterfaces();
+DemonstrateFileLocalTypes();
+
+static void DemonstrateFileLocalTypes()
+{
+	Console.WriteLine($"{nameof(MethodName)} - {MethodName.GetName()}");
+	Console.WriteLine($"{nameof(TypeName)} - {TypeName.GetName()}");
+}
+
+//DemonstrateStaticAbstractMembersInInterfaces();
 
 // https://devblogs.microsoft.com/dotnet/dotnet-7-generic-math/
 // https://github.com/dotnet/csharplang/issues/4436
