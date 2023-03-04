@@ -2,7 +2,4 @@
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
 	</PropertyGroup>
-	<ItemGroup>
-		<PackageReference Include="System.Runtime.Experimental" Version="6.0.2-mauipre.1.22102.15" />
-	</ItemGroup>
 </Project>

@@ -3,7 +3,9 @@
 public interface ICreatable<TSelf>
 	where TSelf : ICreatable<TSelf>
 {
-	static abstract TSelf Create();
+#pragma warning disable CA1000 // Do not declare static members on generic types
+   static abstract TSelf Create();
+#pragma warning restore CA1000 // Do not declare static members on generic types
 }
 
 public sealed class CreateableCustomer 

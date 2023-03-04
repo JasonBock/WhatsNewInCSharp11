@@ -1,8 +1,9 @@
 <Project>
 	<PropertyGroup>
+		<AnalysisMode>all</AnalysisMode>
 		<EnablePreviewFeatures>true</EnablePreviewFeatures>
-		<LangVersion>preview</LangVersion>
-		<TargetFramework>net6.0</TargetFramework>
+		<LangVersion>latest</LangVersion>
+		<TargetFramework>net7.0</TargetFramework>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>

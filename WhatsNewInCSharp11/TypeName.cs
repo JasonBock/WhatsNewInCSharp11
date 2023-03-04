@@ -7,5 +7,5 @@ file static class GeneratedName
 
 public static class TypeName
 {
-	public static string GetName() => GeneratedName.Name;
+	public static string RetrieveName() => GeneratedName.Name;
 }

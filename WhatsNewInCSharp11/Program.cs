@@ -1,7 +1,11 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Globalization;
+using System.Numerics;
+using System.Runtime.CompilerServices;
 using WhatsNewInCSharp11;
 
-//DemonstrateListPatterns();
+#pragma warning disable CA1852 // Seal internal types
+
+DemonstrateListPatterns();
 
 // https://github.com/dotnet/csharplang/blob/main/proposals/param-nullchecking.md
 static void DemonstrateListPatterns()
@@ -31,6 +35,7 @@ static void DemonstrateListPatterns()
 	Peruse(new List<int> { 3, 4, 5, 6, 7 });
 	Peruse(new List<int> { });
 }
+#pragma warning restore CA1852 // Seal internal types
 
 //DemonstrateRawStringLiterals();
 
@@ -137,12 +142,12 @@ static void DemonstrateRequiredProperties()
 	Console.WriteLine($"{person.Name}, {person.Age}");
 }
 
-DemonstrateFileLocalTypes();
+//DemonstrateFileLocalTypes();
 
 static void DemonstrateFileLocalTypes()
 {
-	Console.WriteLine($"{nameof(MethodName)} - {MethodName.GetName()}");
-	Console.WriteLine($"{nameof(TypeName)} - {TypeName.GetName()}");
+	Console.WriteLine($"{nameof(MethodName)} - {MethodName.RetrieveName()}");
+	Console.WriteLine($"{nameof(TypeName)} - {TypeName.RetrieveName()}");
 }
 
 //DemonstrateStaticAbstractMembersInInterfaces();
@@ -160,7 +165,7 @@ static void DemonstrateStaticAbstractMembersInInterfaces()
 
 	Console.WriteLine(Add(3, 4));
 	Console.WriteLine(Add(3.4, 4.3));
-	Console.WriteLine(Add(int.Parse("3"), 4));
+	Console.WriteLine(Add(int.Parse("3", CultureInfo.CurrentCulture), 4));
 
 	// The current version of BigInteger (https://source.dot.net/#System.Runtime.Numerics/System/Numerics/BigInteger.cs)
 	// implements the necessary interfaces, such as IBinaryInteger.
