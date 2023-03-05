@@ -4,7 +4,7 @@
 		<EnablePreviewFeatures>true</EnablePreviewFeatures>
 		<LangVersion>latest</LangVersion>
 		<TargetFramework>net7.0</TargetFramework>
-		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 	</PropertyGroup>

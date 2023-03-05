@@ -35,5 +35,11 @@ dotnet_style_qualification_for_property = true:error
 dotnet_diagnostic.CS8321.severity = none
 dotnet_diagnostic.CS0105.severity = none
 
+# CA1708: Names should differ by more than case
+# I have an issue opened because of the file-scoped types example:
+# https://github.com/dotnet/roslyn-analyzers/issues/6514
+dotnet_diagnostic.CA1708.severity = none
+dotnet_diagnostic.CA1708.severity = none
+
 [*.xml]
 indent_style = tab
