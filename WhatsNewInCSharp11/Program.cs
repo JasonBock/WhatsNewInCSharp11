@@ -5,7 +5,49 @@ using WhatsNewInCSharp11;
 
 #pragma warning disable CA1852 // Seal internal types
 
-DemonstrateListPatterns();
+//DemonstrateStaticAbstractMembersInInterfaces();
+
+// https://devblogs.microsoft.com/dotnet/dotnet-7-generic-math/
+// https://github.com/dotnet/csharplang/issues/4436
+// https://source.dot.net/#System.Private.CoreLib/IParsable.cs
+static void DemonstrateStaticAbstractMembersInInterfaces()
+{
+	Console.WriteLine(nameof(DemonstrateStaticAbstractMembersInInterfaces));
+	Console.WriteLine();
+
+	static T Add<T>(T left, T right)
+		where T : INumber<T> => left + right;
+
+	Console.WriteLine(Add(3, 4));
+	Console.WriteLine(Add(3.4, 4.3));
+	Console.WriteLine(Add(int.Parse("3", CultureInfo.CurrentCulture), 4));
+	Console.WriteLine(
+		Add(BigInteger.Parse("49043910940940104390", CultureInfo.CurrentCulture), 
+			BigInteger.Parse("59839583901984390184", CultureInfo.CurrentCulture)));
+
+	var customer = CreateableCustomer.Create();
+	Console.WriteLine(customer);
+}
+
+//DemonstrateUnsignedRightShift();
+
+// https://github.com/dotnet/csharplang/issues/4682
+static void DemonstrateUnsignedRightShift()
+{
+	Console.WriteLine(nameof(DemonstrateUnsignedRightShift));
+	Console.WriteLine();
+
+	var value = -400;
+	Console.WriteLine(value >> 3);
+	Console.WriteLine(value >>> 3);
+
+	Console.WriteLine();
+
+	Console.WriteLine(Convert.ToString(value >> 3, 2));
+	Console.WriteLine(Convert.ToString(value >>> 3, 2));
+}
+
+//DemonstrateListPatterns();
 
 // https://github.com/dotnet/csharplang/blob/main/proposals/param-nullchecking.md
 static void DemonstrateListPatterns()
@@ -36,6 +78,48 @@ static void DemonstrateListPatterns()
 	Peruse(new List<int> { });
 }
 #pragma warning restore CA1852 // Seal internal types
+
+//DemonstrateGenericAttributes();
+
+// https://github.com/dotnet/csharplang/issues/124
+// https://github.com/JasonBock/Injectors
+// https://docs.microsoft.com/en-us/dotnet/api/system.componentmodel.typeconverterattribute
+static void DemonstrateGenericAttributes()
+{
+	Console.WriteLine(nameof(DemonstrateGenericAttributes));
+	Console.WriteLine();
+
+	[Trace]
+	static int Add(int x, int y) => x + y;
+
+	Console.WriteLine(Add(3, 4));
+}
+
+//DemonstrateRequiredProperties();
+
+// https://github.com/dotnet/csharplang/issues/3630
+// https://blog.paranoidcoding.com/2022/04/11/lowercase-type-names.html
+// https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/warning-waves#cs8981---the-type-name-only-contains-lower-cased-ascii-characters
+static void DemonstrateRequiredProperties()
+{
+	Console.WriteLine(nameof(DemonstrateRequiredProperties));
+	Console.WriteLine();
+
+	// This won't work.
+	//var person = new Person();
+
+	var person = new Person() { Name = "Jason" };
+
+	Console.WriteLine($"{person.Name}, {person.Age}");
+}
+
+//DemonstrateFileLocalTypes();
+
+static void DemonstrateFileLocalTypes()
+{
+	Console.WriteLine($"{nameof(MethodName)} - {MethodName.RetrieveName()}");
+	Console.WriteLine($"{nameof(TypeName)} - {TypeName.RetrieveName()}");
+}
 
 //DemonstrateRawStringLiterals();
 
@@ -106,72 +190,4 @@ static void DemonstrateRawStringLiterals()
 
 	Console.WriteLine($"{nameof(interpolatedRawCode)}");
 	Console.WriteLine(interpolatedRawCode);
-}
-
-//DemonstrateGenericAttributes();
-
-// https://github.com/dotnet/csharplang/issues/124
-// https://github.com/JasonBock/Injectors
-// https://docs.microsoft.com/en-us/dotnet/api/system.componentmodel.typeconverterattribute
-static void DemonstrateGenericAttributes()
-{
-	Console.WriteLine(nameof(DemonstrateGenericAttributes));
-	Console.WriteLine();
-
-	[Trace]
-	static int Add(int x, int y) => x + y;
-
-	Console.WriteLine(Add(3, 4));
-}
-
-//DemonstrateRequiredProperties();
-
-// https://github.com/dotnet/csharplang/issues/3630
-// https://blog.paranoidcoding.com/2022/04/11/lowercase-type-names.html
-// https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/warning-waves#cs8981---the-type-name-only-contains-lower-cased-ascii-characters
-static void DemonstrateRequiredProperties()
-{
-	Console.WriteLine(nameof(DemonstrateRequiredProperties));
-	Console.WriteLine();
-
-	// This won't work.
-	//var person = new Person();
-
-	var person = new Person() { Name = "Jason" };
-
-	Console.WriteLine($"{person.Name}, {person.Age}");
-}
-
-//DemonstrateFileLocalTypes();
-
-static void DemonstrateFileLocalTypes()
-{
-	Console.WriteLine($"{nameof(MethodName)} - {MethodName.RetrieveName()}");
-	Console.WriteLine($"{nameof(TypeName)} - {TypeName.RetrieveName()}");
-}
-
-//DemonstrateStaticAbstractMembersInInterfaces();
-
-// https://devblogs.microsoft.com/dotnet/dotnet-7-generic-math/
-// https://github.com/dotnet/csharplang/issues/4436
-// https://source.dot.net/#System.Private.CoreLib/IParsable.cs
-static void DemonstrateStaticAbstractMembersInInterfaces()
-{
-	Console.WriteLine(nameof(DemonstrateStaticAbstractMembersInInterfaces));
-	Console.WriteLine();
-
-	static T Add<T>(T left, T right)
-		where T : INumber<T> => left + right;
-
-	Console.WriteLine(Add(3, 4));
-	Console.WriteLine(Add(3.4, 4.3));
-	Console.WriteLine(Add(int.Parse("3", CultureInfo.CurrentCulture), 4));
-
-	// The current version of BigInteger (https://source.dot.net/#System.Runtime.Numerics/System/Numerics/BigInteger.cs)
-	// implements the necessary interfaces, such as IBinaryInteger.
-	// However, this isn't in .NET 6, which is what this project is referencing.
-	//Console.WriteLine(Add(BigInteger.Parse("49043910940940104390"), BigInteger.Parse("59839583901984390184")));
-
-	var customer = CreateableCustomer.Create();
-	Console.WriteLine(customer);
 }
