@@ -1,4 +1,6 @@
-﻿namespace WhatsNewInCSharp11;
+﻿using System.Numerics;
+
+namespace WhatsNewInCSharp11;
 
 public interface ICreatable<TSelf>
 	where TSelf : ICreatable<TSelf>
@@ -9,7 +11,8 @@ public interface ICreatable<TSelf>
 }
 
 public sealed class CreateableCustomer 
-	: ICreatable<CreateableCustomer>
+	: ICreatable<CreateableCustomer>,
+	IAdditionOperators<CreateableCustomer, CreateableCustomer, CreateableCustomer>
 {
 	public static CreateableCustomer Create() =>
 		new()
@@ -24,4 +27,7 @@ public sealed class CreateableCustomer
 
 	public Guid Id { get; init; }	
 	public string? Name { get; init; }
+
+   public static CreateableCustomer operator +(CreateableCustomer left, CreateableCustomer right) => 
+		new() { Id = Guid.NewGuid(), Name = left?.Name + right?.Name };
 }

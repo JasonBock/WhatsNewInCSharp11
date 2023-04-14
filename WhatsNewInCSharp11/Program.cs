@@ -5,7 +5,7 @@ using WhatsNewInCSharp11;
 
 #pragma warning disable CA1852 // Seal internal types
 
-//DemonstrateStaticAbstractMembersInInterfaces();
+DemonstrateStaticAbstractMembersInInterfaces();
 
 // https://devblogs.microsoft.com/dotnet/dotnet-7-generic-math/
 // https://github.com/dotnet/csharplang/issues/4436
@@ -18,6 +18,9 @@ static void DemonstrateStaticAbstractMembersInInterfaces()
 	static T Add<T>(T left, T right)
 		where T : INumber<T> => left + right;
 
+	static T AddWithOperators<T>(T left, T right)
+		where T : IAdditionOperators<T, T, T> => left + right;
+
 	Console.WriteLine(Add(3, 4));
 	Console.WriteLine(Add(3.4, 4.3));
 	Console.WriteLine(Add(int.Parse("3", CultureInfo.CurrentCulture), 4));
@@ -27,6 +30,11 @@ static void DemonstrateStaticAbstractMembersInInterfaces()
 
 	var customer = CreateableCustomer.Create();
 	Console.WriteLine(customer);
+
+	var customer2 = CreateableCustomer.Create();
+	Console.WriteLine(customer2);
+
+	Console.WriteLine(AddWithOperators(customer, customer2));
 }
 
 //DemonstrateUnsignedRightShift();
@@ -137,7 +145,7 @@ static void DemonstrateRawStringLiterals()
 			public static int GetLength(this string self) => self.Length;
 		}";
 
-	Console.WriteLine($"{nameof(literalCode)}");
+	Console.WriteLine(nameof(literalCode));
 	Console.WriteLine(literalCode);
 	Console.WriteLine();
 
@@ -149,7 +157,7 @@ static void DemonstrateRawStringLiterals()
 		}
 		""";
 
-	Console.WriteLine($"{nameof(rawCode)}");
+	Console.WriteLine(nameof(rawCode));
 	Console.WriteLine(rawCode);
 	Console.WriteLine();
 
@@ -162,7 +170,7 @@ static void DemonstrateRawStringLiterals()
 		}
 		"""";
 
-	Console.WriteLine($"{nameof(tripleQuoteCode)}");
+	Console.WriteLine(nameof(tripleQuoteCode));
 	Console.WriteLine(tripleQuoteCode);
 	Console.WriteLine();
 
@@ -175,19 +183,19 @@ static void DemonstrateRawStringLiterals()
 			public static int GetLength(this string self) => self.Length;
 		}}";
 
-	Console.WriteLine($"{nameof(interpolatedLiteralCode)}");
+	Console.WriteLine(nameof(interpolatedLiteralCode));
 	Console.WriteLine(interpolatedLiteralCode);
 	Console.WriteLine();
 
 	var interpolatedRawCode =
-		$$$"""
+		$$"""
 		public static class StringExtensions
 		{
-			// {{{commentText}}}
+			// {{commentText}}
 			public static int GetLength(this string self) => self.Length;
 		}
 		""";
 
-	Console.WriteLine($"{nameof(interpolatedRawCode)}");
+	Console.WriteLine(nameof(interpolatedRawCode));
 	Console.WriteLine(interpolatedRawCode);
 }
